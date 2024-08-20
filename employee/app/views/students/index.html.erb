@@ -39,7 +39,8 @@
           <td><%= student.country %></td>
           <td><%= link_to 'View', student, class: 'btn btn-info btn-sm' %></td>
           <td><%= link_to 'Edit', edit_student_path(student), class: 'btn btn-warning btn-sm' %></td>
-           <td><%= link_to 'Delete', student, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %></td>
+          <td><%= link_to 'Delete', student, method: :destroy, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %></td>
+          
         </tr>
       <% end %>
     </tbody>

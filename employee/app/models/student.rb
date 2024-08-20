@@ -1,7 +1,29 @@
+# frozen_string_literal: true
+
 class Student < ApplicationRecord
-  validates :first_name, :last_name, :email, presence: true
+  before_save :check_state_present
+  validates :first_name, :last_name, :city, :state, :country, presence: true
+  validates :email, :contact_no, presence: true, uniqueness: true
+  validates :contact_no, presence: true, length: { is: 10 }
+  validate :validate_country
 
-  validates :contact_no, presence: true, format: { with: /\A\d{10}\z/, message: "must be exactly 10 digits" }
+  def check_state_present
+    state = country if state.nil?
+  end
 
-  has_many :blogs
+  def country_name
+    country = IsoCountryCodes.find(self.country)
+    country.name
+  end
+
+  def validate_country
+    return if country.nil?
+    unless Student.country_code_list.include?(country)
+        errors.add(:country, "is not valid")
+    end
+  end 
+
+  def self.country_code_list
+    IsoCountryCodes.all.map(&:alpha2)
+  end
 end
