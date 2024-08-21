@@ -1,0 +1,3 @@
+class NonTechnicalCourse < Course
+  
+end

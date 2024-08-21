@@ -1,0 +1,3 @@
+class TechnicalCourse < Course
+  
+end

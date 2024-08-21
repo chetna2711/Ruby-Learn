@@ -3,6 +3,17 @@
 require 'rails_helper'
 
 RSpec.describe Student, type: :model do
+
+  describe '#full_name' do
+  context 'when first name and last name are present' do
+    it 'returns the full name' do
+      @student = Student.new(first_name: 'John', last_name: 'Doe')
+      expect(@student.full_name).to eq('John Doe')
+    end
+  end
+end
+
+  
   context 'when creating a student' do
     let(:student) { build(:student) }
     let(:student1) { create(:student, state: nil) }

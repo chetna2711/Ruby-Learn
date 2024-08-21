@@ -1,0 +1,3 @@
+class BackEndSkill < Skill
+  
+end

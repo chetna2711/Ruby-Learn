@@ -1,14 +1,21 @@
 # frozen_string_literal: true
 
 class Student < ApplicationRecord
-  before_save :check_state_present
-  validates :first_name, :last_name, :city, :state, :country, presence: true
-  validates :email, :contact_no, presence: true, uniqueness: true
+  has_many :student_skills
+  has_many :skills, through: :student_skills ,dependent: :destroy
+
+  has_many :student_courses
+  has_many :courses, through: :student_courses, dependent: :destroy
+  
+  validates :first_name, :last_name, :city, :country, presence: true
+  validates :email, presence: true, uniqueness: true
   validates :contact_no, presence: true, length: { is: 10 }
   validate :validate_country
 
+  before_save :check_state_present
+
   def check_state_present
-    state = country if state.nil?
+    self.state = country if state.nil?
   end
 
   def country_name
@@ -25,5 +32,9 @@ class Student < ApplicationRecord
 
   def self.country_code_list
     IsoCountryCodes.all.map(&:alpha2)
+  end
+
+  def full_name
+    "#{first_name} #{last_name}".strip
   end
 end

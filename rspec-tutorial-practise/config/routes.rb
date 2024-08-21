@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-
+  root 'students#index'
   resources :students
-
-get 'students/:id', to: 'students#show'
 end

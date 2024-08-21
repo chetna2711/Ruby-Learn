@@ -32,8 +32,13 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    @student.destroy
-    redirect_to students_path, notice: 'Student was successfully deleted.'
+    if @student.destroy
+      flash[:errors] = "Student Deleted Successfully"
+      redirect_to root_path(@student)
+    else
+      flash[:errors] = @student.errors.full_messages
+      redirect_to destroy_student_path
+    end
   end
 
   private

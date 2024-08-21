@@ -10,13 +10,56 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_17_154341) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_21_113259) do
   create_table "blogs", force: :cascade do |t|
     t.string "title"
     t.text "content"
     t.integer "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "course_name"
+    t.string "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "name"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "student_course", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_student_course_on_course_id"
+    t.index ["student_id"], name: "index_student_course_on_student_id"
+  end
+
+  create_table "student_courses", force: :cascade do |t|
+    t.integer "course_rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "student_id", null: false
+    t.integer "course_id", null: false
+    t.index ["course_id"], name: "index_student_courses_on_course_id"
+    t.index ["student_id"], name: "index_student_courses_on_student_id"
+  end
+
+  create_table "student_skills", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "skill_id", null: false
+    t.integer "rating"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["skill_id"], name: "index_student_skills_on_skill_id"
+    t.index ["student_id"], name: "index_student_skills_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
@@ -32,4 +75,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_17_154341) do
     t.date "birthdate"
   end
 
+  add_foreign_key "student_course", "courses"
+  add_foreign_key "student_course", "students"
+  add_foreign_key "student_courses", "courses"
+  add_foreign_key "student_courses", "students"
+  add_foreign_key "student_skills", "skills"
+  add_foreign_key "student_skills", "students"
 end
