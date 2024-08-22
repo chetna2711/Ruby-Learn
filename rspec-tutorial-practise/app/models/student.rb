@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 class Student < ApplicationRecord
-  has_many :student_skills
-  has_many :skills, through: :student_skills ,dependent: :destroy
+  has_many :student_skills, dependent: :destroy
+  has_many :skills, through: :student_skills 
 
-  has_many :student_courses
-  has_many :courses, through: :student_courses, dependent: :destroy
+  has_many :student_courses, dependent: :destroy
+  has_many :courses, through: :student_courses
   
   validates :first_name, :last_name, :city, :country, presence: true
   validates :email, presence: true, uniqueness: true
