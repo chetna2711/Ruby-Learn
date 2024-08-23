@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Student < ApplicationRecord
+
   has_many :student_skills, dependent: :destroy
   has_many :skills, through: :student_skills 
 

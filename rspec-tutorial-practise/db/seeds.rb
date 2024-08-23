@@ -18,11 +18,33 @@ puts "Creating Student #{i+1}"
 )
 end
 
-
 Student.all.each do |student|
   student.blogs.create(title: "Dummy blog for student #{student.id}", content: "  Custom content pending")
 end
 
+100.times do |i|
+  student = Student.new(
+    first_name:   Faker::Name.name_with_middle,
+    last_name:    Faker::Name.name_with_middle,
+    email:        Faker::Internet.email,
+    password: Faker::Internet.password,
+    contact_no:   Faker::Number.number(digits: 10),
+    city:         Faker::Address.city,
+    state:        Faker::Address.state,
+    country:      Faker::Address.country_code,
+    birthdate:    Faker::Date.birthday(min_age: 18, max_age: 65)
+  )
+
+  if student.save
+    puts "Student ##{i + 1} created successfully"
+  else
+    puts "Error creating student ##{i + 1}: #{student.errors.full_messages.join(', ')}"
+  end
+end
+
+Student.all.each do |student|
+  student.update(password: 'password@123')
+end
 
 FrontEndSkill.find_or_create_by(name:'HTML')
 FrontEndSkill.find_or_create_by(name:'CSS')

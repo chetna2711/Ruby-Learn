@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_21_113259) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_23_092719) do
   create_table "blogs", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -31,6 +31,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_21_113259) do
     t.string "type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "student_course", force: :cascade do |t|
+    t.integer "student_id", null: false
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_student_course_on_course_id"
+    t.index ["student_id"], name: "index_student_course_on_student_id"
   end
 
   create_table "student_courses", force: :cascade do |t|
@@ -64,8 +73,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_21_113259) do
     t.string "state"
     t.string "country"
     t.date "birthdate"
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_students_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "student_course", "courses"
+  add_foreign_key "student_course", "students"
   add_foreign_key "student_courses", "courses"
   add_foreign_key "student_courses", "students"
   add_foreign_key "student_skills", "skills"
