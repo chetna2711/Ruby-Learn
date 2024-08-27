@@ -75,7 +75,7 @@
 
       <div class="col-md-4 mb-3">
         <%= form.label :country, class: "form-label" %>
-        <%= form.text_field :country, class: "form-control", required: true %>
+        <%= form.select :country, options_for_select(Student.country_code_list.map { |code| [IsoCountryCodes.find(code).name, code] }, @student.country), { include_blank: 'Select Country' }, { class: 'form-control' } %>
         <div class="invalid-feedback">
           Country
         </div>

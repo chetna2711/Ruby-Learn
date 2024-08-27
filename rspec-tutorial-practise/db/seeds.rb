@@ -22,7 +22,7 @@ Student.all.each do |student|
   student.blogs.create(title: "Dummy blog for student #{student.id}", content: "  Custom content pending")
 end
 
-100.times do |i|
+15.times do |i|
   student = Student.new(
     first_name:   Faker::Name.name_with_middle,
     last_name:    Faker::Name.name_with_middle,
@@ -43,7 +43,7 @@ end
 end
 
 Student.all.each do |student|
-  student.update(password: 'password@123')
+  student.update(password: '123456789')
 end
 
 FrontEndSkill.find_or_create_by(name:'HTML')

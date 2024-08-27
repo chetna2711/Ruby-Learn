@@ -12,32 +12,34 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     if @student.save
-      redirect_to students_path, notice: 'Student was successfully created.'
+      flash[:notice] = 'Student was successfully created.'
+      redirect_to students_path
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def show
-  end
-  def edit
-  end
+  def show; end
+
+  def edit; end
 
   def update
     if @student.update(student_params)
-      redirect_to students_path, notice: 'Student was successfully updated.'
+      flash[:notice] = 'Student was successfully updated.'
+      redirect_to students_path
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
+    @student = Student.find(params[:id])
     if @student.destroy
-      flash[:errors] = "Student Deleted Successfully"
-      redirect_to root_path(@student)
+      flash[:notice] = "Student '#{ @student.full_name }' was successfully deleted."
+      redirect_to students_path
     else
-      flash[:errors] = @student.errors.full_messages
-      redirect_to destroy_student_path
+      flash[:alert] = 'There was an error deleting the student.'
+      redirect_to students_path
     end
   end
 
@@ -48,6 +50,6 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, :birthdate, :contact_no, :city, :state, :country)
+    params.require(:student).permit(:first_name, :last_name, :email, :password, :password_confirmation,:birthdate, :contact_no, :city, :state, :country)
   end
 end

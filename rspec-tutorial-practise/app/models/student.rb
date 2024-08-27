@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 class Student < ApplicationRecord
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
 
   has_many :student_skills, dependent: :destroy
-  has_many :skills, through: :student_skills 
+  has_many :skills, through: :student_skills
 
   has_many :student_courses, dependent: :destroy
   has_many :courses, through: :student_courses
-  
+
   validates :first_name, :last_name, :city, :country, presence: true
   validates :email, presence: true, uniqueness: true
   validates :contact_no, presence: true, length: { is: 10 }
@@ -26,10 +30,11 @@ class Student < ApplicationRecord
 
   def validate_country
     return if country.nil?
-    unless Student.country_code_list.include?(country)
-        errors.add(:country, "is not valid")
-    end
-  end 
+
+    return if Student.country_code_list.include?(country)
+
+    errors.add(:country, 'is not valid')
+  end
 
   def self.country_code_list
     IsoCountryCodes.all.map(&:alpha2)
