@@ -13,7 +13,8 @@ class StudentsController < ApplicationController
     @student = Student.new(student_params)
     if @student.save
       flash[:notice] = 'Student was successfully created.'
-      redirect_to students_path
+      # redirect_to students_path
+       redirect_to @student
     else
       render :new, status: :unprocessable_entity
     end
