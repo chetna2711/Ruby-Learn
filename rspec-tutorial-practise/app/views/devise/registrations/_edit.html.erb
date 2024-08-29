@@ -1,12 +1,10 @@
-  <% resource_name = :student %> 
-  <% resource = Student.new %>
-  <!-- <!-- <% devise_mapping = Devise.mappings[:student] %> -->
+
 
 
   <div class="container mt-5">
     <h2 class="text-center mb-4">Edit Student</h2>
   
-    <%= form_for(@student, url: student_path(@student), method: :put, html: { class: "form-signup" }) do |f| %>
+    <%= form_for(@student, url: student_path(@student)) do |f| %>
       <%= render "devise/shared/error_messages", resource: @student %>
   
       <div class="card p-4 mb-4">
@@ -74,10 +72,6 @@
         <%= link_to 'Back To Student List', students_path, class: "btn btn-secondary" %>
       </div>
     <% end %>
-  
-    <div class="mt-4 mb-4">
-      <h6>Cancel my account</h6>
-      <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger btn-lg" %>
-    </div>
+
   </div>
   

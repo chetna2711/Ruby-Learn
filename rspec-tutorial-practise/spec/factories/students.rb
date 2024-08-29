@@ -5,6 +5,7 @@ FactoryBot.define do
     email { Faker::Internet.email }
     password { 'password123' }
     password_confirmation { 'password123' } 
+    birthdate { "2000-01-01" }
     contact_no { Faker::Number.number(digits: 10) }
     country { Student.country_code_list.sample }
     state { 'Gujarat' }
