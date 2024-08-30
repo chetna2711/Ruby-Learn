@@ -14,9 +14,14 @@ class StudentsController < ApplicationController
     if @student.save
       flash[:notice] = 'Student was successfully created.'
       # redirect_to students_path
-      # redirect_to @student
-      render :index
+    
+      #   # Redirects to the show page of the newly created student
+      redirect_to @student
+
+      # Render the index template instead of redirecting
+      # render :index
     else
+      # Renders new form if create fails
       render 'devise/registrations/new', status: :unprocessable_entity
     end
   end
@@ -29,10 +34,12 @@ class StudentsController < ApplicationController
  
     if @student.update(student_update_params)
       flash[:notice] = 'Student was successfully updated.'
-      redirect_to students_path
-      # redirect_to @student
+      # redirect the index page
+      # redirect_to students_path 
+      redirect_to @student
     else
-      render 'devise/registrations/_edit', status: :unprocessable_entity
+      # Renders edit form if update fails
+      render 'devise/registrations/edit', status: :unprocessable_entity
     end
   end
 
@@ -54,8 +61,7 @@ class StudentsController < ApplicationController
   end
 
   def student_params
-    params.require(:student).permit(:first_name, :last_name, :email, :password, :password_confirmation, :birthdate,
-                                    :contact_no, :city, :state, :country)
+    params.require(:student).permit(:first_name, :last_name, :email, :password, :password_confirmation, :birthdate,:contact_no, :city, :state, :country)
   end
 
   def student_update_params

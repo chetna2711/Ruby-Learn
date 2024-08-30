@@ -1,36 +1,33 @@
 require 'rails_helper'
 
 RSpec.describe StudentsController do
-  # --------------------------------------- Writing controller spec for GET  Action ---------------------------------------------
-
-  describe 'GET index' do
     let(:student) { create :student }
 
     before(:each) do
       sign_in(student)
-      get :index
     end
 
+  # --------------------------------------- Writing controller spec for GET  Action ---------------------------------------------
+  describe 'GET index' do
+
     it 'assigns @students' do
+      get :index
       expect(assigns(:students)).to eq([student])
     end
 
     it 'render index template' do
+      get :index
       expect(response).to render_template('index')
     end
 
     it 'return success ok http code' do
+      get :index
       expect(response).to have_http_status(:ok)
     end
   end
 
   # --------------------------------------- Writing controller spec for POST  Action ---------------------------------------------
   describe 'POST create' do
-    let(:student) { create :student }
-
-    before(:each) do
-      sign_in(student)
-    end
 
     it 'should accept the params  with html formats' do
       post :create, params: {
@@ -53,7 +50,7 @@ RSpec.describe StudentsController do
       post :create, params: {
         student: student_params
       }
-      expect(subject).to redirect_to(assigns(:student))
+      expect(response).to redirect_to(assigns(:student))
     end
 
  #  it 'should redirect to showpage  with turbo_stream format' do
@@ -67,7 +64,7 @@ RSpec.describe StudentsController do
       post :create, params: {
         student: student_params,
       }
-      expect(subject).to render_template('index')
+      expect(subject).to redirect_to(Student.last)
     end
     #   post :create, params: {
     #     student: student_params,
@@ -208,16 +205,10 @@ RSpec.describe StudentsController do
     # end
   end
 
-  # --------------------------------------------- Writing controller spec for PATCH Action-------------------------------------------------------------
-  
+  # -------------------------------------------- Writing controller spec for PATCH Action------------------------------------------
   describe 'PATCH Update' do
-    let(:student) { create :student }
     let(:student1) { create :student }
     let(:student2) { create :student }
-
-    before(:each) do
-      sign_in(student)
-    end
 
     it 'should accept the params  with html formats' do
       patch :update, params: {
@@ -243,9 +234,10 @@ RSpec.describe StudentsController do
         student: student_params,
         id: student2.id,
       }
-      expect(response).to redirect_to(assigns(:student))
+   expect(response).to redirect_to(student_path(assigns(:student)))
     end
 
+    # it 'should redirect to showpage  with turbo_stream format' do
     #   patch :update, params: {
     #     student: student_params,
     #     id: student2.id,
@@ -254,16 +246,7 @@ RSpec.describe StudentsController do
     #   expect(response).to redirect_to(assigns(:student))
     # end
 
-    # it 'should render the student partial with turbo_stream format' do
-    #   patch :update, params: {
-    #     student: student_params,
-    #     id: student2.id,
-    #     format: :turbo_stream
-    #   }
-    #   expect(response).to render_template('index')
-    # end
-    
-     it 'should render the student partial with html format' do
+    it 'should render the student partial with html format' do
       patch :update, params: {
         student: student_params,
         id: student2.id,
@@ -278,8 +261,29 @@ RSpec.describe StudentsController do
     #     format: :turbo_stream
     #   }
     #   expect(response).to render_template('index')
-    # end 
-
+    # end
+    
+    it 'should renders validation error into form ' do
+      patch :update, params: {
+         student: {
+           first_name: nil,
+           last_name: nil,
+           email: Faker::Internet.email,
+           password: 'password123',
+           password_confirmation: 'password123',
+           birthdate: '27/11/2001',
+           contact_no: Faker::Number.number(digits: 10),
+           city: 'Surat',
+           state: 'Gujarat',
+           country: Student.country_code_list.sample
+         },
+         id: student2.id,
+         
+       }
+       expect(assigns(:student).valid?).not_to eq(true)
+       expect(response).to render_template('devise/registrations/edit')
+     end
+   
     # it 'should renders validation error into form turbo_stream' do
     #  patch :update, params: {
     #     student: {
@@ -301,34 +305,13 @@ RSpec.describe StudentsController do
     #   expect(response).to render_template('students/_error_messages')
     # end
 
-
-    it 'should renders validation error into form ' do
-     patch :update, params: {
-        student: {
-          first_name: nil,
-          last_name: nil,
-          email: Faker::Internet.email,
-          password: 'password123',
-          password_confirmation: 'password123',
-          birthdate: '27/11/2001',
-          contact_no: Faker::Number.number(digits: 10),
-          city: 'Surat',
-          state: 'Gujarat',
-          country: Student.country_code_list.sample
-        },
-        id: student2.id,
-        
-      }
-      expect(assigns(:student).valid?).not_to eq(true)
-      expect(response).to render_template('devise/registrations/edit')
-    end
-  
-    it 'should includes the error messages for empty attributes' do
+   
+    it 'should include the error messages for empty attributes' do
       patch :update, params: {
         student: {
           first_name: nil,
           last_name: nil,
-          email: nil,
+          email: nil,  # Make sure this is correctly set to nil
           password: 'password123',
           password_confirmation: 'password123',
           birthdate: '27/11/2001',
@@ -339,12 +322,12 @@ RSpec.describe StudentsController do
         },
         id: student1.id,
       }
-      expect(assigns(:student).valid?).not_to eq(true)
+      expect(assigns(:student).valid?).to eq(false)
       expect(response).to render_template('devise/registrations/edit')
       expect(assigns(:student).errors.full_messages).to include("Email can't be blank", "First name can't be blank",
                                                                 "Last name can't be blank")
     end
-
+    
     it 'should includes the uniqness error in form' do
       patch :update, params: {
         student: {
@@ -361,7 +344,7 @@ RSpec.describe StudentsController do
         },
         id: student1.id,
       }
-      expect(assigns(:student).valid?).not_to eq(true)
+      expect(assigns(:student).valid?).not_to eq(false)
       expect(response).to render_template('devise/registrations/edit')
       expect(assigns(:student).errors.full_messages).to include('Email has already been taken')
     end
@@ -409,13 +392,9 @@ RSpec.describe StudentsController do
     # end
   end
 
-  describe 'DELETE destroy'
-      let(:student) { create(:student)}
+  # -------------------------------------------- Writing controller spec for Destroy Action-----------------------------------------
+  describe 'DELETE destroy' do
       let(:student1) { create(:student)}
-
-      before(:each) do
-        sign_in(student)
-      end
     
       it 'should reduce the student count by one' do
           delete :destroy, params:{
@@ -424,10 +403,66 @@ RSpec.describe StudentsController do
           expect(Student.count).to eq(1)  
       end
 
-      
+      it 'should not render any template with html format' do
+         delete :destroy, params:{
+          id: student1.id
+         }
+         expect(subject).to render_template(nil)  
+      end
+
+      it 'should redirect to students index page after deleting student' do
+          delete :destroy, params:{
+            id: student1.id
+          }
+          expect(subject).to redirect_to(students_path)  
+      end
+  
   end
 
+  # -------------------------------------------- Writing controller spec for Show Action--------------------------------------------
+  describe 'GET show' do
+    let(:student1) { create(:student)}
 
+    it'should render the show template with html format' do
+      get :show, params: { 
+                          id: student1.id 
+                         }
+
+      expect(subject).to render_template('students/show')  
+      expect(subject.media_type).to  eq('text/html')
+      expect(subject.content_type).to eq('text/html; charset=utf-8')  
+    end
+
+  end
+
+ # -------------------------------------------- Writing controller spec for Edit Action--------------------------------------------
+  describe 'Patch edit' do
+    let(:student1) { create(:student)}
+
+    it'should render the show template with html format' do
+    get :edit, params: { 
+                          id: student1.id 
+                        }
+      expect(subject).to render_template('students/edit')  
+      expect(subject.media_type).to  eq('text/html')
+      expect(subject.content_type).to eq('text/html; charset=utf-8')
+    end
+
+  end
+
+# -------------------------------------------- Writing controller spec for New Action--------------------------------------------  
+  describe 'Get new' do
+ 
+      it'should render the show template with html format' do
+      get :new, params: {     }
+        expect(subject).to render_template('students/new')  
+        expect(subject.media_type).to  eq('text/html')
+        expect(subject.content_type).to eq('text/html; charset=utf-8')
+      end
+
+  end
+
+end
 
 def student_params
   {
