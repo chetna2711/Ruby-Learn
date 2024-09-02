@@ -15,9 +15,8 @@ class StudentsController < ApplicationController
       flash[:notice] = 'Student was successfully created.'
       # redirect_to students_path
     
-      #   # Redirects to the show page of the newly created student
+      # Redirects to the show page of the newly created student
       redirect_to @student
-
       # Render the index template instead of redirecting
       # render :index
     else

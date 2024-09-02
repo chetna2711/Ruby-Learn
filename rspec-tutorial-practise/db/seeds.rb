@@ -105,3 +105,10 @@ StudentCourse.create(student: Student.last , course: Course.find(2), course_rati
 StudentCourse.create(student: Student.last , course: Course.find(3), course_rating: 8)
 StudentCourse.create(student: Student.last , course: Course.find(4), course_rating: 8)
 
+Skill.create(name:'C++', type: 'any_type')
+
+Skill.insert_all( [
+  { name: "sample_skill" , type:"some_type" },
+  { name: "sample_skill" , type: "some_type" },
+  { name: "sample_skill" , type:"sample_type" }	
+])
