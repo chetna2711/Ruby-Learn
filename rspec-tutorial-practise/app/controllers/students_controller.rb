@@ -1,5 +1,6 @@
 class StudentsController < ApplicationController
   before_action :set_student, only: %i[show edit update destroy]
+  before_action :prepare_devise_view, only: %i[new create edit update]
 
   def index
     @students = Student.all
@@ -30,14 +31,13 @@ class StudentsController < ApplicationController
   def edit; end
 
   def update
- 
     if @student.update(student_update_params)
       flash[:notice] = 'Student was successfully updated.'
       # redirect the index page
       # redirect_to students_path 
       redirect_to @student
     else
-      # Renders edit form if update fails
+      # Renders edit form if update rails
       render 'devise/registrations/edit', status: :unprocessable_entity
     end
   end
@@ -54,6 +54,12 @@ class StudentsController < ApplicationController
   end
 
   private
+
+  def prepare_devise_view
+    @resource = @student || Student.new
+    @resource_name = :student
+    @devise_mapping = Devise.mappings[:student]
+  end  
 
   def set_student
     @student = Student.find(params[:id])
