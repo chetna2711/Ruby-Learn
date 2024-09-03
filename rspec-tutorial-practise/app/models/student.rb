@@ -12,12 +12,12 @@ class Student < ApplicationRecord
   has_many :student_courses, dependent: :destroy
   has_many :courses, through: :student_courses
 
-  validates  :birthdate, :contact_no, :city, :state, :country, presence: true
-   validates :first_name, presence: true
-  validates :last_name, presence: true
-  validates :email, presence: true, uniqueness: true
-  validates :contact_no, presence: true, uniqueness: true, length: { is: 10 }
-  validates :password, confirmation: true
+  # validates  :birthdate, :contact_no, :city, :state, :country, presence: true
+  #  validates :first_name, presence: true
+  # validates :last_name, presence: true
+  # validates :email, presence: true, uniqueness: true
+  # validates :contact_no,  uniqueness: true, length: { is: 10 }
+  # validates :password, confirmation: true
   validate :validate_country
 
   before_save :check_state_present

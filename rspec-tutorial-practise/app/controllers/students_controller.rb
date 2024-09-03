@@ -4,6 +4,7 @@ class StudentsController < ApplicationController
 
   def index
     @students = Student.all
+    
   end
 
   def new
@@ -34,8 +35,8 @@ class StudentsController < ApplicationController
     if @student.update(student_update_params)
       flash[:notice] = 'Student was successfully updated.'
       # redirect the index page
-      # redirect_to students_path 
-      redirect_to @student
+      redirect_to students_path 
+      # redirect_to @student
     else
       # Renders edit form if update rails
       render 'devise/registrations/edit', status: :unprocessable_entity

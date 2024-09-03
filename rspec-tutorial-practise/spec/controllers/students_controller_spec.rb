@@ -116,7 +116,7 @@ RSpec.describe StudentsController do
     #     },
     #     format: :turbo_stream
     #   }
-    #   debugger
+    
     #   expect(assigns(:student).valid?).not_to eq(true)
     #   expect(response).to render_template('students/_error_messages')
     # end
@@ -234,7 +234,8 @@ RSpec.describe StudentsController do
         student: student_params,
         id: student2.id,
       }
-   expect(response).to redirect_to(student_path(assigns(:student)))
+      # expect(response).to redirect_to(student_path(assigns(:student)))
+      expect(response).to redirect_to(students_path)
     end
 
     # it 'should redirect to showpage  with turbo_stream format' do
@@ -251,7 +252,7 @@ RSpec.describe StudentsController do
         student: student_params,
         id: student2.id,
       }
-      expect(subject).to redirect_to(assigns(:student))
+      expect(subject).to redirect_to(students_path)
     end
 
     # it 'should render the student partial with turbo_stream format' do
@@ -280,6 +281,7 @@ RSpec.describe StudentsController do
          id: student2.id,
          
        }
+       
        expect(assigns(:student).valid?).not_to eq(true)
        expect(response).to render_template('devise/registrations/edit')
      end
@@ -311,7 +313,7 @@ RSpec.describe StudentsController do
         student: {
           first_name: nil,
           last_name: nil,
-          email: nil,  # Make sure this is correctly set to nil
+          email: nil,
           password: 'password123',
           password_confirmation: 'password123',
           birthdate: '27/11/2001',
@@ -322,6 +324,7 @@ RSpec.describe StudentsController do
         },
         id: student1.id,
       }
+
       expect(assigns(:student).valid?).to eq(false)
       expect(response).to render_template('devise/registrations/edit')
       expect(assigns(:student).errors.full_messages).to include("Email can't be blank", "First name can't be blank",
@@ -461,7 +464,6 @@ RSpec.describe StudentsController do
       end
 
   end
-
 end
 
 def student_params
