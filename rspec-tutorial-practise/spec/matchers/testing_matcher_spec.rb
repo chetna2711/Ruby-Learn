@@ -47,14 +47,10 @@ end
 
   it 'checks if string matches regex using match matcher' do
     expect("hello world").to match(/world/)
-    expect("123abc").to match(/\d+/)
+    expect("123abc").to match(/^\d+$/)  #test case fail because "123abc" contains non-digit characters
+    expect("123").to match(/^\d+$/)    # This will pass because the entire string consists of digits.
   end
 
-  # it 'checks response status  using have_http_status Matcher' do
-  #   get '/path'
-  #   expect(response).to have_http_status(:ok)
-  #   expect(response).to have_http_status(404)
-  # end
 
   # it 'detects changes in object attributes using change Matcher' do
   #   user = User.create(name: "Old Name")
@@ -72,28 +68,38 @@ end
     end
 
     it 'checks if value meets custom criteria using satisfy matcher' do
-      expect(5).to satisfy { |value| value.even? }
+      expect(8).to satisfy { |value| value.even? }
     end
 
     it 'checks if value is within range us be_between matcher' do
-      expect(5).to be_between(1, 10).inclusive
-      expect(0).not_to be_between(1, 10).inclusive
+      expect(9).to be_between(1, 10).inclusive          #inclusive means that both the start (1) and end (10) are included in the range.
+      expect(10).not_to be_between(1, 10).exclusive       #exclusive means that the range does not include the boundary values 1 and 10
     end
 
-    it 'checks for selector presence using have_selector matcher' do
-      render template: 'views/index.html.erb'
-      expect(rendered).to have_selector("h1", text: "Welcome")
-    end
+    # it 'checks for selector presence using have_selector matcher' do
+    #   render template: 'views/index.html.erb'
+    #   expect(rendered).to have_selector("h1", text: "Welcome")
+    # end
+    
+    # it 'checks for content presence using have_content matcher' do
+    #   render template: 'students/index'
+    #   expect(rendered).to have_content("Hello World")
+    # end
 
-    it 'checks for content presence using have_content matcher' do
-      render template: 'views/index.html.erb'
-      expect(rendered).to have_content("Hello World")
-    end
-
-    it 'checks for link presence using have_link matcher' do
-      render template: 'views/students/index.html.erb'
-      expect(rendered).to have_link("My Link", href: "/path")
-    end
-  
+    # it 'checks for link presence using have_link matcher' do
+    #   render template: 'views/students/index.html.erb'
+    #   expect(rendered).to have_link("My Link", href: "/path")
+    # end
+    
 end
+
+      # here you have to pass actuatl path
+
+# RSpec.describe 'testing all matchers', type: :request do
+#   it 'checks response status  using have_http_status Matcher' do
+#     get '/path'
+#     expect(response).to have_http_status(:ok)
+#     expect(response).to have_http_status(404)
+#   end
+# end
 

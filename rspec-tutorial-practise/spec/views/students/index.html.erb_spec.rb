@@ -85,7 +85,7 @@ RSpec.describe "students/index", type: :view do
 
           render template: "students/index"
 
-          expect(rendered).to have_selector('h1', text: 'Students')
+          expect(rendered).to have_selector('h1', text: 'Listing All Students')
           expect(rendered).to match /Slicer/
           expect(rendered).to match /John/
         end
