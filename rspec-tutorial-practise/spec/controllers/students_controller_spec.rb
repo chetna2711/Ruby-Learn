@@ -464,6 +464,13 @@ RSpec.describe StudentsController do
       end
 
   end
+
+
+  describe 'Use be_routable in a controller spec' do
+    it "routes to /main/students" do
+      expect(:get => "/main/students").to be_routable
+    end
+  end
 end
 
 def student_params
