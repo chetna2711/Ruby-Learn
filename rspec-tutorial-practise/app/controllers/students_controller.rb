@@ -54,6 +54,18 @@ class StudentsController < ApplicationController
     end
   end
 
+
+  def upload_csv
+    if params[:csv_file].present?
+      file = params[:csv_file].path
+      CsvImportWorker.perform_async(file) # Enqueue the CSV processing job
+      flash[:notice] = "CSV is being processed in the background!"
+    else
+      flash[:alert] = "Please upload a CSV file"
+    end
+    redirect_to users_path
+  end
+
   private
 
   def prepare_devise_view

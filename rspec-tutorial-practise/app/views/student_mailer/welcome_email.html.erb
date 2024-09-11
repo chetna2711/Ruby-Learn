@@ -1,4 +1,4 @@
-<h1>Hello <%= @student.first_name %>!</h1>
+<!-- <h1>Hello <%= @student.first_name %>!</h1>
 
 <p> </p>
 Welcome to our platform. We're excited to have you with us.</p>
@@ -6,4 +6,11 @@ Welcome to our platform. We're excited to have you with us.</p>
 <p>
     Best regards,<br>
     The Team
-  </p>  
+  </p>   -->
+
+  <h1>Welcome to My Awesome Site, <%= @student.full_name %>!</h1>
+  <p>
+    You have successfully signed up to our site.
+    To login, visit the following URL: <%= link_to 'Sign_in', @url %>.
+  </p>
+  

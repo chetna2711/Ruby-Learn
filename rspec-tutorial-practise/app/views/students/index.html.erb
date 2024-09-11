@@ -1,4 +1,4 @@
-<% if notice %>
+<!-- <% if notice %>
   <p class="alert alert-info"><%= notice %></p>
 <% elsif alert %>
   <p class="alert alert-danger"><%= alert %></p>
@@ -46,4 +46,9 @@
     </tbody>
   </div>
   </table>
-</div>
+</div> -->
+<h1>Upload CSV</h1>
+<%= form_with url: students_path, local: true, multipart: true do |form| %>
+  <%= form.file_field :csv_file %>
+  <%= form.submit 'Upload' %>
+<% end %>

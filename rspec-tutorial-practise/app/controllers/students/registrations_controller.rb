@@ -12,7 +12,8 @@ class Students::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super do |resource|
-      StudentMailer.welcome_email(resource).deliver_now
+      # StudentMailer.welcome_email(resource).deliver_now
+      WelcomeEmailJob.perform_later(resource.id)
     end
   end
 
