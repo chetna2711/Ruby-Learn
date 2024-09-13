@@ -29,24 +29,25 @@ class StudentsController < ApplicationController
 
   def show; end
 
-  def edit; end
+  def edit; 
+  end
 
   def update
     if @student.update(student_update_params)
-      flash[:notice] = 'Student was successfully updated.'
+      flash[:notice] = 'Student was successfully updated'
       # redirect the index page
       redirect_to students_path
       # redirect_to @student
     else
       # Renders edit form if update rails
-      render 'devise/registrations/edit', status: :unprocessable_entity
+      render 'edit', status: :unprocessable_entity
     end
   end
 
   def destroy
     @student = Student.find(params[:id])
     if @student.destroy
-      flash[:notice] = "Student '#{@student.full_name}' was successfully deleted."
+      flash[:notice] = "Student was successfully deleted"
       redirect_to students_path
     else
       flash[:alert] = 'There was an error deleting the student.'
@@ -55,16 +56,16 @@ class StudentsController < ApplicationController
   end
 
 
-  def upload_csv
-    if params[:csv_file].present?
-      file = params[:csv_file].path
-      CsvImportWorker.perform_async(file) # Enqueue the CSV processing job
-      flash[:notice] = "CSV is being processed in the background!"
-    else
-      flash[:alert] = "Please upload a CSV file"
-    end
-    redirect_to users_path
-  end
+  # def upload_csv
+  #   if params[:csv_file].present?
+  #     file = params[:csv_file].path
+  #     CsvImportWorker.perform_async(file) # Enqueue the CSV processing job
+  #     flash[:notice] = "CSV is being processed in the background!"
+  #   else
+  #     flash[:alert] = "Please upload a CSV file"
+  #   end
+  #   redirect_to users_path
+  # end
 
   private
 

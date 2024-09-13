@@ -1,4 +1,4 @@
-<!-- <% if notice %>
+<% if notice %>
   <p class="alert alert-info"><%= notice %></p>
 <% elsif alert %>
   <p class="alert alert-danger"><%= alert %></p>
@@ -17,10 +17,10 @@
     <% end %>
   
     <h1 class="text-center mb-4 display-7">Listing All Students</h1>
-  <table class="table table-bordered">
+  <table class="table table-bordered students">
     <thead class="text-center">
       <tr>
-        <th scope="col">Full Name</th>
+        <th scope="col">First_Name</th>
         <th scope="col">Email</th>
         <th scope="col">Birth Date</th>
         <th scope="col">Contact No</th>
@@ -33,7 +33,7 @@
     <tbody class="text-center">
       <% @students.each do |student| %>
         <tr>
-          <td> <%= formatted_student_name(student) %></td>
+          <td> <%= student.first_name %></td>
           <td><%= student.email %></td>
           <td><%= student.birthdate.present? ? format_date(student.birthdate) : 'N/A' %></td>
           <td><%= student.contact_no %></td>
@@ -46,9 +46,9 @@
     </tbody>
   </div>
   </table>
-</div> -->
-<h1>Upload CSV</h1>
+</div>
+<!-- <h1>Upload CSV</h1>
 <%= form_with url: students_path, local: true, multipart: true do |form| %>
   <%= form.file_field :csv_file %>
   <%= form.submit 'Upload' %>
-<% end %>
+<% end %> -->
