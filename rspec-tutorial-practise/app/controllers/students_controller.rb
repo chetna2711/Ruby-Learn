@@ -1,5 +1,4 @@
 class StudentsController < ApplicationController
-  # class StudentsController < Devise::RegistrationsController
   before_action :set_student, only: %i[show edit update destroy]
   before_action :prepare_devise_view, only: %i[new create edit update]
 
@@ -56,16 +55,15 @@ class StudentsController < ApplicationController
   end
 
 
-  # def upload_csv
-  #   if params[:csv_file].present?
-  #     file = params[:csv_file].path
-  #     CsvImportWorker.perform_async(file) # Enqueue the CSV processing job
-  #     flash[:notice] = "CSV is being processed in the background!"
-  #   else
-  #     flash[:alert] = "Please upload a CSV file"
-  #   end
-  #   redirect_to users_path
-  # end
+  def upload_csv
+    if params[:csv_file].present?
+      CsvUploadWorker.perform_async(params[:csv_file].path)
+      flash[:notice] = "CSV file uploaded. Students will be processed in the background."
+    else
+      flash[:alert] = "Please upload a CSV file."
+    end
+    redirect_to students_path
+  end
 
   private
 

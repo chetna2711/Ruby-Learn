@@ -15,7 +15,7 @@ class Student < ApplicationRecord
   # validates  :birthdate, :contact_no, :city, :state, :country, presence: true
   #  validates :first_name, presence: true
   # validates :last_name, presence: true
-  # validates :email, uniqueness: true , presence: true
+  validates :email, uniqueness: true , presence: true
   # validates :contact_no,  uniqueness: true, length: { is: 10 }, presence: true
   # validates :password, confirmation: true,  presence: true
   validate :validate_country

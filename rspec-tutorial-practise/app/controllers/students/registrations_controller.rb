@@ -11,9 +11,10 @@ class Students::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super do |resource|
-      # StudentMailer.welcome_email(resource).deliver_now
-      WelcomeEmailJob.perform_later(resource.id)
+    super do |student|
+      # StudentMailer.welcome_email(student).deliver_now
+      # WelcomeEmailJob.perform_later(student.id)
+      WelcomeEmailWorker.perform_async(student.id)
     end
   end
 
