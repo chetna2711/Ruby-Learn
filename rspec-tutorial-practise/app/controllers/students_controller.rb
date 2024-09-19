@@ -1,4 +1,5 @@
 class StudentsController < ApplicationController
+  before_action :authenticate_student!
   before_action :set_student, only: %i[show edit update destroy]
   before_action :prepare_devise_view, only: %i[new create edit update]
 
@@ -83,6 +84,6 @@ class StudentsController < ApplicationController
   end
 
   def student_update_params
-    params.require(:student).permit(:first_name, :last_name, :birthdate, :contact_no, :city, :state, :country)
+    params.require(:student).permit(:first_name, :last_name, :birthdate,  :city, :state, :country)
   end
 end

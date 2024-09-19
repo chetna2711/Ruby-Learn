@@ -8,37 +8,36 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= f.label :first_name, 'First name',class: "form-label" ,disabled: false %>
-          <%= f.text_field :first_name, id:"first_name",class: "form-control", required: true %>
-      
+            <%= f.label :first_name, 'First name', class: "form-label", disabled: false %>
+            <%= f.text_field :first_name, id: "first_name", class: "form-control", required: true %>
         </div>
 
         <div class="col-md-6 mb-3">
-          <%= f.label :last_name, 'Last name',class: "form-label",disabled: true %>
+          <%= f.label :last_name, 'Last name',class: "form-label" %>
           <%= f.text_field :last_name, id:"last_name" ,class: "form-control", required: true %>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-4 mb-3">
-          <%= f.label :email, 'Email',class: "form-label",disabled: true %>
+          <%= f.label :email, 'Email',class: "form-label" %>
           <%= f.email_field :email,id:"email", class: "form-control", required: true %>
         </div>
 
         <div class="col-md-4 mb-3">
-          <%= f.label :password, 'password',class: "form-label" ,disabled: true%>
+          <%= f.label :password, 'password',class: "form-label" %>
           <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", id:'password',required: true %>
         </div>
 
         <div class="col-md-4 mb-3">
-          <%= f.label :password_confirmation,'Password Confirmation', class: "form-label" ,disabled: true%>
+          <%= f.label :password_confirmation,'Password Confirmation', class: "form-label" %>
           <%= f.password_field :password_confirmation,id:'password_confirmation', autofocus: true, autocomplete: "new-password", class: "form-control", required: true %>
         </div>
       </div>
 
       <div class="row">
         <div class="col-md-6 mb-3">
-          <%= f.label :birthdate, 'Birthdate',class: "form-label",disabled: true %>
+          <%= f.label :birthdate, 'Birthdate',class: "form-label" %>
           <%= f.date_field :birthdate, id:'birthdate',class: "form-control", required: true %>
           <div class="invalid-feedback">
             Please enter your birthdate.
@@ -46,8 +45,8 @@
         </div>
 
         <div class="col-md-6 mb-3">
-          <%= f.label :contact_no,  'Contact no', class: "form-label",disabled: true %>
-          <%= f.number_field :contact_no,id:'contact_no' ,class: "form-control", required: true, maxlength: 10, inputmode: "numeric", title: "Please enter a 10-digit phone number using only digits", oninput: "this.value=this.value.slice(0,10);" %>
+          <%= f.label :contact_no,  'Contact no', class: "form-label" %>
+          <%= f.number_field :contact_no, id: 'contact_no', class: 'form-control', required: true, maxlength: 10, inputmode: "numeric", title: "Please enter a 10-digit phone number using only digits", oninput: "this.value=this.value.slice(0,10);" %>
           <div class="invalid-feedback">
             Please enter a valid 10-digit phone number.
           </div>
@@ -56,7 +55,7 @@
 
       <div class="row">
         <div class="col-md-4 mb-3">
-          <%= f.label :city, class: "form-label" ,disabled: true%>
+          <%= f.label :city, 'City', class: "form-label" %>
           <%= f.text_field :city, id:'city',class: "form-control", required: true %>
           <div class="invalid-feedback">
             Please enter your city.
@@ -64,7 +63,7 @@
         </div>
 
         <div class="col-md-4 mb-3">
-          <%= f.label :state, class: "form-label",disabled: true %>
+          <%= f.label :state, 'State' , class: "form-label" %>
           <%= f.text_field :state, id:'state',class: "form-control", required: true %>
           <div class="invalid-feedback">
             Please enter your state.
@@ -72,7 +71,7 @@
         </div>
 
         <div class="col-md-4 mb-3">
-          <%= f.label :country, class: "form-label" %>
+          <%= f.label :country, 'Country',class: "form-label" %>
           <%= f.select :country,options_for_select(Student.country_code_list.map { |code| [IsoCountryCodes.find(code).name, code] }, @student.country), { include_blank: 'Select Country' }, { class: 'form-control',id:'country' } %>
           <div class="invalid-feedback">
             Please select your country.

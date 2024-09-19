@@ -1,4 +1,4 @@
-
+require 'database_cleaner/active_record'
 require 'rails_helper'
 # require 'factory_bot_rails'
 
@@ -71,4 +71,28 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Devise::Test::IntegrationHelpers, type: :feature
+
+
+
+  DatabaseCleaner.strategy = :truncation
+
+RSpec.configure do |config|
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+  
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 end
+end
+
+
+
+
+

@@ -61,4 +61,13 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+  
+
+
+config.middleware.use Warden::Manager do |manager|
+  Devise.warden_config = manager
 end
+
+config.active_job.queue_adapter = :inline
+end
+
