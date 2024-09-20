@@ -71,7 +71,7 @@ class StudentsController < ApplicationController
   def prepare_devise_view
     @resource = @student || Student.new
     @resource_name = :student
-    # @devise_mapping = Devise.mappings[:student]
+    @devise_mapping = Devise.mappings[:student]
   end
 
   def set_student

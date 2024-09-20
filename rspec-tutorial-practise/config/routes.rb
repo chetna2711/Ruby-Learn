@@ -7,13 +7,8 @@ Rails.application.routes.draw do
     registrations: 'students/registrations',
     sessions: 'students/sessions'
   }
-  scope :main do
-    resources :students do
-      collection do
-        post :upload_csv
-      end
-    end
-  end
+  resources :students
+
 end
 
 

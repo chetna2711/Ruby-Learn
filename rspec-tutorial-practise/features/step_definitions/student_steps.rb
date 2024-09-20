@@ -22,7 +22,7 @@ Then('I should see {string}') do |text|
   expect(page).to have_content(text)
 end
 
-Given('the following students exist:') do |table|
+Given('the following student exist:') do |table|
   table.hashes.each do |student|
     existing_student = Student.find_by(email: student['email'])
     next if existing_student
@@ -64,28 +64,26 @@ When('I enter {string} into the {string} field') do |value, field_label|
   fill_in field_label, with: value
 end
 
-Then('I should see the updated student\'s details:') do |table|
-  table.hashes.each do |expected_details|
-    expected_details.each do |field, expected_value|
-      within("##{field}") do
-        expect(page).to have_content(expected_value)
-      end
-    end
-  end
-end
-
-
 When('I visit the student\'s page') do
   visit '/'
 end
 
-When('I click on the link  {string}') do |link_text|
-  click_link(link_text)
+# When('I click on the "Delete" button') do
+#   if ENV['SKIP_RSPEC']
+#     skip 'Skipping RSpec test'
+#   else
+#     click_button 'Delete'
+#   end
+# end
+
+When('I press "Delete" for {string}') do |student_name|
+  within('.table') do
+    within('.student_data', text: student_name) do
+      click_button 'Delete'
+    end
+  end
 end
 
-
-Then('I should not see {string}') do |text|
-  expect(page).not_to have_content(text)
+Then('I should not see {string} in the table') do |student_name|
+  expect(page).not_to have_content(student_name)
 end
-
-
